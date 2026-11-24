@@ -79,9 +79,23 @@ void Game::Render()
     }
     else
     {
+        m_map.Draw();
+        DrawCursor();
     }
 
     EndDrawing();
+}
+
+void Game::DrawCursor()
+{
+    Rectangle cursorBounds = {
+        m_cursorX * m_cellWidth,
+        m_cursorY * m_cellHeight,
+        m_cellWidth,
+        m_cellHeight
+    };
+
+    DrawRectangleLinesEx(cursorBounds, 3.0f, YELLOW);
 }
 
 

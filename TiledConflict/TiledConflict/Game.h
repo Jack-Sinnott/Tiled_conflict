@@ -3,6 +3,7 @@
 
 #include "raylib.h"
 #include "Globals.h"
+#include "Map.h"
 
 class Game
 {
@@ -24,6 +25,8 @@ private:
 	// Represents position of user selection on grid
 	int m_cursorX = 0;
 	int m_cursorY = 0;
+
+	Map m_map;
 
 	bool m_exitWindowRequested = false;
 	bool m_exitWindow = false;
