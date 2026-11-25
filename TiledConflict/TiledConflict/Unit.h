@@ -3,6 +3,7 @@
 
 #include "Globals.h"
 #include "raylib.h"
+#include <math.h>
 
 enum class UnitType
 {
@@ -30,6 +31,8 @@ public:
     UnitType GetUnitType() const;
     int GetMovementRange() const;
     void SetPosition(int t_x, int t_y);
+    bool CanReach(int t_x, int t_y) const;
+    bool MoveTo(int t_x, int t_y);
 
 private:
     int m_x;

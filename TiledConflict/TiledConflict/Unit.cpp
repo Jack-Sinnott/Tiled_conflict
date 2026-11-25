@@ -89,3 +89,19 @@ void Unit::SetPosition(int t_x, int t_y)
 	m_bounds.y = m_y * m_cellHeight +
 		(m_cellHeight - m_unitHeight) / 2;
 }
+
+bool Unit::CanReach(int t_x, int t_y) const
+{
+	int distance = abs(m_x - t_x) + abs(m_y - t_y);
+
+	return distance <= m_movementRange;
+}
+
+bool Unit::MoveTo(int t_x, int t_y)
+{
+	if (!CanReach(t_x, t_y))
+		return false;
+
+	SetPosition(t_x, t_y);
+	return true;
+}

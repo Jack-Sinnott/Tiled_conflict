@@ -22,6 +22,11 @@ private:
 	void Update();
 	void Render();
 	void DrawCursor();
+	void DrawExitPrompt();
+	void DrawMovementRange();
+	void DrawUnits();
+	void DrawUnitInfo();
+	int FindUnitAt(int t_x, int t_y);
 
 	// Represents position of user selection on grid
 	int m_cursorX = 0;
@@ -30,6 +35,7 @@ private:
 	Map m_map;
 
 	std::vector<Unit> m_units;
+	int m_selectedUnit = -1;
 
 	bool m_exitWindowRequested = false;
 	bool m_exitWindow = false;
