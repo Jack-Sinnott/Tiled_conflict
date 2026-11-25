@@ -25,6 +25,7 @@ public:
 private:
 
 	Rectangle m_bounds;
+	Color m_colour;
 	TerrainType m_terrain;
 
 };

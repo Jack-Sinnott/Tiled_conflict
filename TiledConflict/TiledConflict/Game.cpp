@@ -2,6 +2,11 @@
 
 Game::Game()
 {
+    m_units.emplace_back(1, 2, UnitType::Infantry, Team::Player);
+    m_units.emplace_back(2, 3, UnitType::Tank, Team::Player);
+
+    m_units.emplace_back(8, 5, UnitType::Infantry, Team::Enemy);
+    m_units.emplace_back(7, 6, UnitType::Artillery, Team::Enemy);
 }
 
 Game::~Game()
@@ -80,6 +85,10 @@ void Game::Render()
     else
     {
         m_map.Draw();
+        for (Unit& unit : m_units)
+        {
+            unit.Draw();
+        }
         DrawCursor();
     }
 

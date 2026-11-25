@@ -4,6 +4,7 @@
 #include "raylib.h"
 #include "Globals.h"
 #include "Map.h"
+#include "Unit.h"
 
 class Game
 {
@@ -27,6 +28,8 @@ private:
 	int m_cursorY = 0;
 
 	Map m_map;
+
+	std::vector<Unit> m_units;
 
 	bool m_exitWindowRequested = false;
 	bool m_exitWindow = false;

@@ -12,26 +12,26 @@ Tile::~Tile()
 
 void Tile::Draw()
 {
-	Color t_colour;
+	
 	switch (m_terrain)
 	{
 	case TerrainType::Grass:
-		t_colour = GREEN;
+		m_colour = GREEN;
 		break;
 	case TerrainType::Forest:
-		t_colour = DARKGREEN;
+		m_colour = DARKGREEN;
 		break;
 	case TerrainType::Mountain:
-		t_colour = BROWN;
+		m_colour = BROWN;
 		break;
 	case TerrainType::Base:
-		t_colour = BLUE;
+		m_colour = LIGHTGRAY;
 		break;
 	default:
-		t_colour = WHITE;
+		m_colour = WHITE;
 		break;
 	}
-	DrawRectangleRec(m_bounds, t_colour);
+	DrawRectangleRec(m_bounds, m_colour);
 }
 
 TerrainType Tile::GetTerrain() const

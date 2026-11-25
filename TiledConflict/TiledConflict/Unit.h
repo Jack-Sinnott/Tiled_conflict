@@ -1,6 +1,9 @@
 #ifndef UNIT_H
 #define UNIT_H
 
+#include "Globals.h"
+#include "raylib.h"
+
 enum class UnitType
 {
     Infantry,
@@ -17,20 +20,26 @@ enum class Team
 class Unit
 {
 public:
-    Unit(int t_posX, int t_posY, UnitType t_unitType, Team t_team);
+    Unit(int t_x, int t_y, UnitType t_unitType, Team t_team);
     ~Unit();
 
     void Draw();
-    int GetX();
-    int GetY();
-    Team GetTeam();
-    UnitType GetUnitType();
-    int GetMovementRange();
+    int GetX() const;
+    int GetY() const;
+    Team GetTeam() const;
+    UnitType GetUnitType() const;
+    int GetMovementRange() const;
     void SetPosition(int t_x, int t_y);
 
 private:
     int m_x;
     int m_y;
+
+    float m_unitWidth = m_cellWidth * 0.6f;
+    float m_unitHeight = m_cellHeight * 0.6f;
+
+    Rectangle m_bounds;
+    Color m_colour;
 
     UnitType m_unitType;
     Team m_team;
