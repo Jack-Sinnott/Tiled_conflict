@@ -2,14 +2,7 @@
 #define TILE_H
 
 #include "raylib.h"
-
-enum class TerrainType
-{
-	Grass,
-	Forest,
-	Mountain,
-	Base
-};
+#include "Globals.h"
 
 class Tile
 {
@@ -20,6 +13,7 @@ public:
 	void Draw();
 	TerrainType GetTerrain() const;
 	Rectangle GetBounds() const;
+	int GetMovementCost(UnitType unitType) const;
 	void SetTerrain(TerrainType t_terrain);
 
 private:

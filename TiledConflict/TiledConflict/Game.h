@@ -26,7 +26,10 @@ private:
 	void DrawMovementRange();
 	void DrawUnits();
 	void DrawUnitInfo();
+	bool CanMoveTo(int t_x, int t_y);
+	bool CanAttack(int t_x, int  t_y);
 	int FindUnitAt(int t_x, int t_y);
+	
 
 	// Represents position of user selection on grid
 	int m_cursorX = 0;

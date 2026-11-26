@@ -4,10 +4,9 @@ Game::Game()
 {
     m_units.emplace_back(1, 2, UnitType::Infantry, Team::Player);
     m_units.emplace_back(2, 3, UnitType::Tank, Team::Player);
-    m_units.emplace_back(2, 2, UnitType::Artillery, Team::Player);
 
     m_units.emplace_back(8, 5, UnitType::Infantry, Team::Enemy);
-    m_units.emplace_back(7, 6, UnitType::Artillery, Team::Enemy);
+    m_units.emplace_back(7, 6, UnitType::Tank, Team::Enemy);
 }
 
 Game::~Game()
@@ -78,15 +77,21 @@ void Game::ProcessKeys()
         }
         else
         {
-            // Attempt to move the selected unit
-            if (FindUnitAt(m_cursorX, m_cursorY) == -1)
+            if (CanMoveTo(m_cursorX, m_cursorY))
             {
-                if (m_units[m_selectedUnit].MoveTo(m_cursorX, m_cursorY))
-                    m_selectedUnit = -1;
+                m_units[m_selectedUnit].SetPosition(m_cursorX, m_cursorY);
+                m_selectedUnit = -1;
             }
-            
+            else if (CanAttack(m_cursorX, m_cursorY))
+            {
+                int t_target = FindUnitAt(m_cursorX, m_cursorY);
+                int t_damage = m_units[m_selectedUnit].GetAttackDamage();
+                m_units[t_target].TakeDamage(t_damage);
+                m_selectedUnit = -1;
+            }
         }
     }
+
     if (IsKeyPressed(KEY_BACKSPACE))
         m_selectedUnit = -1;
 }
@@ -108,7 +113,6 @@ void Game::Render()
     }
     else
     {
-        m_map.Draw();
         m_map.Draw();
         DrawMovementRange();
         DrawUnits();
@@ -146,7 +150,7 @@ void Game::DrawMovementRange()
     {
         for (int x = 0; x < m_columns; x++)
         {
-            if (m_units[m_selectedUnit].CanReach(x, y))
+            if (CanMoveTo(x, y))
             {
                 DrawRectangleRec(
                     { x * m_cellWidth, y * m_cellHeight,
@@ -162,7 +166,8 @@ void Game::DrawUnits()
 {
     for (Unit& unit : m_units)
     {
-        unit.Draw();
+        if (unit.GetHealth() > 0)
+            unit.Draw();
     }
 }
 
@@ -182,17 +187,15 @@ void Game::DrawUnitInfo()
     case UnitType::Infantry:
         unitName = "Infantry";
         break;
-
     case UnitType::Tank:
         unitName = "Tank";
         break;
-
-    case UnitType::Artillery:
-        unitName = "Artillery";
+    default:
+        unitName = "unassigned unit type";
         break;
     }
 
-    DrawRectangle(620, 5, 175, 65, Fade(BLACK, 0.8f));
+    DrawRectangle(620, 5, 175, 85, Fade(BLACK, 0.8f));
 
     DrawText(unitName, 630, 10, 20, WHITE);
 
@@ -202,9 +205,73 @@ void Game::DrawUnitInfo()
     );
 
     DrawText(
-        TextFormat("Movement: %d", unit.GetMovementRange()),
+        TextFormat("Health: %d", unit.GetHealth()),
         630, 52, 14, WHITE
     );
+
+    DrawText(
+        TextFormat("Movement: %d", unit.GetMovementRange()),
+        630, 70, 14, WHITE
+    );
+
+    if (CanAttack(m_cursorX, m_cursorY))
+    {
+        DrawText("Press Space/Enter to attack", m_cursorX, m_cursorY, 20, WHITE);
+    }
+}
+
+bool Game::CanMoveTo(int t_x, int t_y)
+{
+    if (m_selectedUnit == -1)
+        return false;
+
+    // refernece objects for later
+    Unit& t_unit = m_units[m_selectedUnit];
+    Tile* t_tile = m_map.GetTile(t_x, t_y);
+
+    if (t_tile == nullptr)
+        return false;
+    
+    int t_valid = FindUnitAt(t_x, t_y);
+
+    if (t_valid != -1)
+        return false;
+
+    int t_terrainCost = t_tile->GetMovementCost(t_unit.GetUnitType());
+    if (t_terrainCost == -1)
+        return false;
+
+    int t_distance = abs(t_unit.GetX() - t_x)
+        + abs(t_unit.GetY() - t_y);
+
+    int t_totalCost = t_distance + t_terrainCost - 1;
+
+    return t_totalCost <= t_unit.GetMovementRange();
+}
+
+bool Game::CanAttack(int t_x, int t_y)
+{
+    if (m_selectedUnit == -1)
+        return false;
+
+    int t_target = FindUnitAt(t_x, t_y);
+
+    if (t_target == -1)
+        return false;
+
+    Unit& t_attacker = m_units[m_selectedUnit];
+    Unit& t_defender = m_units[t_target];
+
+    if (t_attacker.GetTeam() == t_defender.GetTeam())
+        return false;
+
+    if (t_defender.GetHealth() <= 0)
+        return false;
+
+    int t_distance = abs(t_attacker.GetX() - t_x)
+        + abs(t_attacker.GetY() - t_y);
+
+    return t_distance == 1;
 }
 
 int Game::FindUnitAt(int x, int y)
@@ -220,5 +287,6 @@ int Game::FindUnitAt(int x, int y)
 
     return -1;
 }
+
 
 

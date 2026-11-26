@@ -11,12 +11,11 @@ Unit::Unit(int t_x, int t_y, UnitType t_unitType, Team t_team)
 	{
 	case UnitType::Infantry:
 		m_movementRange = 3;
+		m_attackDamage = 25;
 		break;
 	case UnitType::Tank:
 		m_movementRange = 5;
-		break;
-	case UnitType::Artillery:
-		m_movementRange = 4;
+		m_attackDamage = 50;
 		break;
 	default:
 		m_movementRange = 0;
@@ -78,6 +77,16 @@ int Unit::GetMovementRange() const
 	return m_movementRange;
 }
 
+int Unit::GetHealth() const
+{
+	return m_health;
+}
+
+int Unit::GetAttackDamage() const
+{
+	return m_attackDamage;
+}
+
 void Unit::SetPosition(int t_x, int t_y)
 {
 	m_x = t_x;
@@ -90,18 +99,9 @@ void Unit::SetPosition(int t_x, int t_y)
 		(m_cellHeight - m_unitHeight) / 2;
 }
 
-bool Unit::CanReach(int t_x, int t_y) const
+void Unit::TakeDamage(int t_damage)
 {
-	int distance = abs(m_x - t_x) + abs(m_y - t_y);
-
-	return distance <= m_movementRange;
-}
-
-bool Unit::MoveTo(int t_x, int t_y)
-{
-	if (!CanReach(t_x, t_y))
-		return false;
-
-	SetPosition(t_x, t_y);
-	return true;
+	m_health -= t_damage;
+	if (m_health < 0)
+		m_health = 0;
 }

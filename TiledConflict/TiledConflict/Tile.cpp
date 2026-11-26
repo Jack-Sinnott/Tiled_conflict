@@ -48,3 +48,21 @@ Rectangle Tile::GetBounds() const
 {
 	return m_bounds;
 }
+
+int Tile::GetMovementCost(UnitType unitType) const
+{
+	switch(m_terrain)
+	{
+	case TerrainType::Grass:
+	case TerrainType::Base:
+		return 1;
+
+	case TerrainType::Forest:
+		return unitType == UnitType::Infantry ? 1 : 2;
+
+	case TerrainType::Mountain:
+		return unitType == UnitType::Infantry ? 2 : -1;
+	}
+
+	return -1;
+}

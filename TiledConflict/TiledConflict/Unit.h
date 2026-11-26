@@ -5,19 +5,6 @@
 #include "raylib.h"
 #include <math.h>
 
-enum class UnitType
-{
-    Infantry,
-    Tank,
-    Artillery
-};
-
-enum class Team
-{
-    Player,
-    Enemy
-};
-
 class Unit
 {
 public:
@@ -25,14 +12,17 @@ public:
     ~Unit();
 
     void Draw();
+    void SetPosition(int t_x, int t_y);
+    void TakeDamage(int t_damage);
     int GetX() const;
     int GetY() const;
+    int GetMovementRange() const;
+    int GetHealth() const;
+    int GetAttackDamage() const;
     Team GetTeam() const;
     UnitType GetUnitType() const;
-    int GetMovementRange() const;
-    void SetPosition(int t_x, int t_y);
-    bool CanReach(int t_x, int t_y) const;
-    bool MoveTo(int t_x, int t_y);
+    
+    
 
 private:
     int m_x;
@@ -49,9 +39,7 @@ private:
 
     int m_health = 100;
     int m_movementRange;
-
-    bool m_hasMoved = false;
-    bool m_hasAttacked = false;
+    int m_attackDamage = 0;
 
 };
 
