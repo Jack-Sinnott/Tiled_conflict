@@ -7,6 +7,7 @@ Unit::Unit(int t_x, int t_y, UnitType t_unitType, Team t_team)
 	m_unitType = t_unitType;
 	m_team = t_team;
 
+	// assigns variables to specific unit types
 	switch (m_unitType)
 	{
 	case UnitType::Infantry:
@@ -22,6 +23,7 @@ Unit::Unit(int t_x, int t_y, UnitType t_unitType, Team t_team)
 		break;
 	}
 
+	// assigns unit to a team colour
 	switch (m_team)
 	{
 	case Team::Player:
@@ -35,6 +37,7 @@ Unit::Unit(int t_x, int t_y, UnitType t_unitType, Team t_team)
 		break;
 	}
 
+	// finalise the rectangle bounds by converting grid coordinates to screen coordinates and centralising the rectangle
 	m_bounds = {
 	m_x * m_cellWidth + (m_cellWidth - m_unitWidth) / 2,
 	m_y * m_cellHeight + (m_cellHeight - m_unitHeight) / 2,
@@ -87,6 +90,7 @@ int Unit::GetAttackDamage() const
 	return m_attackDamage;
 }
 
+// Sets unit position in grid
 void Unit::SetPosition(int t_x, int t_y)
 {
 	m_x = t_x;
@@ -99,6 +103,7 @@ void Unit::SetPosition(int t_x, int t_y)
 		(m_cellHeight - m_unitHeight) / 2;
 }
 
+// Removes health until it reaches 0
 void Unit::TakeDamage(int t_damage)
 {
 	m_health -= t_damage;

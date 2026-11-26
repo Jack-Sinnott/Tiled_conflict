@@ -10,9 +10,11 @@ class Map
 public:
 	Map();
 	~Map();
+	// Initialise default values and grid assembly
 	void Init();
 	// Draw actual Tiles on grid
 	void Draw();
+	// returns pointer to tile or nullptr if unassigned
 	Tile* GetTile(int t_x, int t_y);
 
 private:
