@@ -12,7 +12,6 @@ class Unit
 {
 public:
     Unit(int t_x, int t_y, UnitType t_unitType, Team t_team);
-    ~Unit();
 
     void Draw();
     void SetPosition(int t_x, int t_y);

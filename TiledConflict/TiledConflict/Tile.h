@@ -12,7 +12,6 @@ class Tile
 {
 public:
 	Tile(Rectangle t_bounds, TerrainType t_terrain);
-	~Tile();
 
 	void Draw();
 	// Applies a terrain type from enum class TerrainType to the tile

@@ -9,7 +9,6 @@ class Map
 {
 public:
 	Map();
-	~Map();
 	// Initialise default values and grid assembly
 	void Init();
 	// Draw actual Tiles on grid

@@ -46,10 +46,6 @@ Unit::Unit(int t_x, int t_y, UnitType t_unitType, Team t_team)
 	};
 }
 
-Unit::~Unit()
-{
-}
-
 void Unit::Draw()
 {
 	DrawRectangleRec(m_bounds, m_colour);

@@ -7,10 +7,6 @@ Tile::Tile(Rectangle t_bounds, TerrainType t_terrain)
 	m_colour = WHITE;
 }
 
-Tile::~Tile()
-{
-}
-
 void Tile::Draw()
 {
 	// For each Terrain Type we assign different colours

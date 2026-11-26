@@ -5,10 +5,6 @@ Map::Map()
     Init();
 }
 
-Map::~Map()
-{
-}
-
 // Initial layout and assembly of grid
 void Map::Init()
 {
